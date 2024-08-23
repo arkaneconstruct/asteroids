@@ -21,6 +21,7 @@ def main():
     pygame.init()
     pygame.freetype.init()        
     display_score = pygame.freetype.SysFont('Courier New', 40)
+    display_score2 = pygame.freetype.SysFont('Courier New', 20)
     
     game_clock = pygame.time.Clock()
     dt = 0
@@ -47,7 +48,8 @@ def main():
                     asteroid.split()
                     shot.kill()
         screen.fill("#000000")
-        display_score.render_to(screen,(0,0), "Score: "+ str(game_state.CURRENT_SCORE), (0,255,0))
+        display_score.render_to(screen,(20,20), "Score: "+ str(game_state.CURRENT_SCORE), (0,255,0))
+        display_score.render_to(screen,(20,80), "High Score: "+ str(game_state.HIGH_SCORE), (255,0,0))
 
         #player.draw(screen)
         for object in drawable:
