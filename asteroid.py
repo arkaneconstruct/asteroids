@@ -1,7 +1,10 @@
 import pygame
 import random
+import game_state
 from constants import *
 from circleshape import CircleShape
+
+
 
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
@@ -16,6 +19,7 @@ class Asteroid(CircleShape):
     def split(self):
         self.kill()
         if self.radius <= ASTEROID_MIN_RADIUS:
+            game_state.CURRENT_SCORE += 100
             return
         random_angle = random.uniform(20,50)
         new_velocity1 = self.velocity.rotate(random_angle)
