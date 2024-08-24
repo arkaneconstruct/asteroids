@@ -1,5 +1,7 @@
 import pygame
+from pygame.locals import *
 import sys
+import time
 from constants import*
 from player import Player
 from asteroid import Asteroid
@@ -20,8 +22,9 @@ def main():
     Shot.containers = (shots,updatable,drawable)
     pygame.init()
     pygame.freetype.init()        
-    display_score = pygame.freetype.SysFont('Courier New', 40)
-    display_score2 = pygame.freetype.SysFont('Courier New', 20)
+    display_score = pygame.freetype.SysFont('droidsansmononerdfont', 40)
+    display_score2 = pygame.freetype.SysFont('droidsansmononerdfont', 20)
+    display_game_over = pygame.freetype.SysFont('droidsansmononerdfont', 100)
     
     game_clock = pygame.time.Clock()
     dt = 0
@@ -39,9 +42,21 @@ def main():
             object.update(dt)
         for asteroid in asteroids:
             if asteroid.collide(player):
-                print(f"Game over!")
                 game_state.EndScore()
-                sys.exit()
+                pygame.event.clear()
+                while True:
+                    screen.fill("#000000")
+                    display_game_over.render_to(screen,(375,300), "GAME OVER", (0,255,0))
+                    display_score.render_to(screen,(20,20), "Score: "+ str(game_state.CURRENT_SCORE), (0,255,0))
+                    display_score2.render_to(screen,(20,80), "High Score: "+ str(game_state.HIGH_SCORE), (255,0,0))
+                    pygame.display.flip()
+                    event = pygame.event.wait()
+                    if event.type == QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == KEYDOWN:
+                        if event.key == K_SPACE:
+                            sys.exit()
         for asteroid in asteroids:
             for shot in shots:
                 if asteroid.collide(shot):
